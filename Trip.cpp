@@ -35,6 +35,8 @@ Trip::Trip(int idPar,int startXP,int startYP,int endXP,int endYP,int numPass,int
     taarif = taa;
     layout = NULL;
     timpOfStart = timeOfSt;
+    currentP = startP;
+    pass = vector<Node*>();
 }
 /**
  *
@@ -105,9 +107,13 @@ Node* Trip:: getMapCurrent(){
  * starts the trip
  * @param speed - the speed of the cab
  */
-Node* Trip::start(int speed){
-    Node* currentP = layout->run(speed);
-    if((currentP->getX() == destP->getX()) && (currentP->getY() == destP->getY())){
+Node* Trip::getNext(int speed){
+    currentP = pass.front();
+    pass.erase(pass.begin());
+    int x = 0;
+    x++;
+    //if((currentP->getX() == destP->getX()) && (currentP->getY() == destP->getY())){
+    if(pass.size() == 0){
         done = 1;
         std::cout<<"wow"<<std::endl;
     }
@@ -121,3 +127,10 @@ int Trip:: getNumObs(){ return numObs;}
 void Trip::setNumObs(int numObsInput){ numObs = numObsInput;}
 string Trip:: getObsChain(){ return obsChain;}
 void Trip:: setObsChain(string obsChainInput){ obsChain = obsChainInput;}
+vector<Node*> Trip:: getpass(){
+    return pass;
+}
+void Trip:: createPass(int speed){
+    layout->run(speed);
+    pass = layout->getPass();
+}

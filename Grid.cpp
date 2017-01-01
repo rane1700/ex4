@@ -1,5 +1,4 @@
 
-#include <boost/serialization/export.hpp>
 #include "Grid.h"
 /**
     * constractor
@@ -11,7 +10,6 @@
     * @param gridStartY - the y of the start point
      * @param obs - map of obsticals
     */
-Grid::Grid(){}
 Grid::Grid(int  gridLength, int  gridWidth, int gridGoalX, int gridGoalY, int gridStartx,
            int gridStartY,vector<Node*>obs):Map(){
     length = gridLength;
@@ -58,23 +56,44 @@ Grid::~Grid() {
  * @param speed - the speed of the cab (1 or 2)
  * @return false if there is no path to the goal point, else return true.
  */
-Node* Grid::run(int speed) {
+bool Grid::run(int speed) {
     bool flag;
-     //currentP = &start;
+    //currentP = &start;
     //while didnt reach the goal point
-    //while (!((currentP->getX()==goal.getX())&&(currentP->getY()==goal.getY()))) {
+    while (!((currentP->getX()==goal.getX())&&(currentP->getY()==goal.getY()))) {
         int xAxes = currentP->getX();
         int yAxes = currentP->getY();
         vector <Node*>neighbors = vector<Node *>();
         flag = getNeighbors(xAxes, yAxes, &neighbors,speed);
         if (flag) {
-          currentP = gridPath.getNext(neighbors);
-     }else{
-            currentP->setX(goal.getX());
-            currentP->setY(goal.getY());
+            currentP = gridPath.getNext(neighbors);
+            if(currentP == NULL) {
+                return false;
+            }
+        } else {
+            break;
         }
-    return currentP;
+    }
+    goal.SetFather(currentP);
+    currentP = &goal;
+    return true;
 }
+
+vector<Node*> Grid:: getPass(){
+    vector<Node*> passBackwards = vector<Node*>();
+    vector<Node*> pass = vector<Node*>();
+    do{
+        passBackwards.push_back(currentP);
+        currentP = currentP->getFather();
+    }while(!((currentP->getX() == start.getX()) && (currentP->getY() == start.getY())));
+    passBackwards.push_back(currentP);
+    //reverse the vector
+    for(int i = passBackwards.size() - 1; i >= 0; i--){
+        pass.push_back(passBackwards.at(i));
+    }
+    return pass;
+}
+
 /**
 * prints the shortest path from the start point to the dest point
 */
@@ -92,14 +111,14 @@ void Grid::print(){
 bool Grid::getNeighbors(int xAxes, int yAxes, vector<Node *> *neighbors,int speed) {
     //Left
     if (xAxes - speed >= 0) {
-            Node *left = matrix[xAxes - speed][yAxes];
-            if (!left->getIsObstacle()){
-                if ((left->getX() == goal.getX()) && (left->getY() == goal.getY())) {
-                    return false;
-                }
-                neighbors->push_back(left);
-                left->setIsVisited(left->getIsVisited() +1);
+        Node *left = matrix[xAxes - speed][yAxes];
+        if (!left->getIsObstacle()){
+            if ((left->getX() == goal.getX()) && (left->getY() == goal.getY())) {
+                return false;
             }
+            neighbors->push_back(left);
+            left->setIsVisited(left->getIsVisited() +1);
+        }
 
     }
     //Moving up
@@ -111,13 +130,13 @@ bool Grid::getNeighbors(int xAxes, int yAxes, vector<Node *> *neighbors,int spee
             }
             neighbors->push_back(up);
             up->setIsVisited(up->getIsVisited() + 1);
-       }
+        }
 
     }
 
     //Moving Right
     if (xAxes + 1 < width) {
-            Node *right = matrix[xAxes + speed][yAxes];
+        Node *right = matrix[xAxes + speed][yAxes];
         if (!right->getIsObstacle()) {
             if ((right->getX() == goal.getX()) && (right->getY() == goal.getY())) {
                 return false;
@@ -129,7 +148,7 @@ bool Grid::getNeighbors(int xAxes, int yAxes, vector<Node *> *neighbors,int spee
     }
     //Moving down
     if (yAxes - speed >= 0) {
-            Node *down = matrix[xAxes][yAxes - speed];
+        Node *down = matrix[xAxes][yAxes - speed];
         if (!down->getIsObstacle()) {
             if ((down->getX() == goal.getX()) && (down->getY() == goal.getY())) {
                 return false;
@@ -147,6 +166,3 @@ bool Grid::getNeighbors(int xAxes, int yAxes, vector<Node *> *neighbors,int spee
 Node* Grid:: getCurrent() {
     return  currentP;
 }
-BOOST_CLASS_EXPORT(Grid)
-
-

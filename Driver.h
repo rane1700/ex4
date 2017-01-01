@@ -36,6 +36,7 @@ private:
     double avgsatisfaction;
     int cabID;
     int steps;
+    //vector<Node*> pass = NULL;
     enum material {S,M,D,W};
 
     friend class boost::serialization::access;
@@ -93,6 +94,8 @@ public:
     int getSteps();
     void doOneStep();
     void addTrip(Trip* newTrip);
+    void deletetrip();
+    vector<Node*> getpass();
 };
 
 

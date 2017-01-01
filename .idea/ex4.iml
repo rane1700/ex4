@@ -11,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/SearchAlgo.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Bfs.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Driver.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/client.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Node.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/LuxuryCab.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Grid.h" isTestSource="false" />

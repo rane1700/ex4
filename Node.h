@@ -104,7 +104,7 @@ private:
      * @param out
      * @param point
      */
-    BOOST_SERIALIZATION_ASSUME_ABSTRACT(Node);
+
     std:: ostream &operator<<(std::ostream& out,Node& point);
 
 #endif //EX1_2_POINT_H

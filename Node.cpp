@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Node.h"
-
+BOOST_SERIALIZATION_ASSUME_ABSTRACT(Node);
 using namespace std;
 /**
  * constructor

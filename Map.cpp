@@ -26,7 +26,7 @@ void Map::print(){}
  * @param speed - the speed of the cab (1 or 2)
  * @return false if there is no path to the goal point, else return true.
  */
-Node* Map::run(int speed){}
+bool Map::run(int speed){}
 /**
  * gets neighbors of certian points according to map
  */
@@ -36,3 +36,5 @@ bool Map::getNeighbors(){}
  * @return current point
  */
 Node* Map::getCurrent(){}
+
+std::vector<Node*> Map:: getPass(){}

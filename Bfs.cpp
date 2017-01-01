@@ -42,9 +42,9 @@ Node* Bfs::getNext(vector<Node*> neighbors) {
             }
         }
     }
-        currPoint = pointQue.front();
-        pointQue.pop();
-        return currPoint;
+    currPoint = pointQue.front();
+    pointQue.pop();
+    return currPoint;
 }
 /**
  * prints the path

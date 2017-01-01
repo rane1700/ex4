@@ -14,39 +14,37 @@
 #include "SearchAlgo.h"
 #include <iostream>
 #include <list>
-//#include <boost/serialization/queue.hpp>
 
 using namespace std;
 
 
 
-class Bfs{
+class Bfs: public SearchAlgo{
 private:
     Node* currPoint;
     Node* startMap;
     std::queue<Node*> pointQue;
-
 public:
-     /**
-     * constractor
-     * @param lengthMap - the length
-     * @param widthMap - the width
-     * @param startP - start point
-     */
+    /**
+    * constractor
+    * @param lengthMap - the length
+    * @param widthMap - the width
+    * @param startP - start point
+    */
     Bfs(Node* startP);
-     /**
-     * constractor
-     */
+    /**
+    * constractor
+    */
     Bfs();
-     /**
-     *
-     * @param neighbors - a vector with all the neighbors of the point
-     * @return the next point
-     */
+    /**
+    *
+    * @param neighbors - a vector with all the neighbors of the point
+    * @return the next point
+    */
     Node* getNext(vector<Node*> neighbors);
-     /**
-     * prints the path
-     */
+    /**
+    * prints the path
+    */
     void printPath();
 
 };

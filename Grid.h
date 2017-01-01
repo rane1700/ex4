@@ -5,23 +5,6 @@
 #include "Bfs.h"
 #include "PointBase.h"
 #include "Map.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-//#include <boost/archive/text_oarchive.hpp>
-//#include <boost/archive/text_iarchive.hpp>
-/*#include <boost/tokenizer.hpp>
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/lexical_cast.hpp>
-#include <boost/assign/list_of.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/iostreams/device/back_inserter.hpp>
-#include <boost/iostreams/stream.hpp>*/
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/archive/binary_iarchive.hpp>
-#include <boost/serialization/vector.hpp>
-#include <boost/serialization/array.hpp>
-#include <boost/serialization/export.hpp>
 
 class Grid: public Map {
 private:
@@ -31,29 +14,13 @@ private:
     PointHistory start;
     PointHistory goal;
     Node* matrix[MAX_SIZE][MAX_SIZE];
-
     vector<Node*>obstacles;
     Node* currentP;
-    friend class boost::serialization::access;
-    template <class Archive>
-    void serialize(Archive & ar,const unsigned int version) {
-        ar & boost::serialization::base_object<Map>(*this);
-        ar & length;
-        ar & width;
-        //ar & gridPath;
-        ar & start;
-        ar & goal;
-        ar & matrix;
-        ar & obstacles;
-        ar & currentP;
-
-    }
 public:
     /**
      * destructor
      */
     ~Grid();
-    Grid();
     /**
       * constractor
       * @param gridLength - the length
@@ -70,7 +37,7 @@ public:
      * @param speed - the speed of the cab (1 or 2)
      * @return false if there is no path to the goal point, else return true.
      */
-    Node* run(int speed);
+    bool run(int speed);
     /**
     * prints the shortest path from the start point to the dest point
     */
@@ -88,7 +55,6 @@ public:
      * @return Node object
      */
     Node* getCurrent();
-
+    vector<Node*> getPass();
 };
-
 #endif //EX1_PATH_H

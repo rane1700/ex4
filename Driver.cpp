@@ -28,7 +28,7 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
     avgsatisfaction = 0;
     location = new PointHistory(PointBase(0,0));
     steps = 0;
-    trip = NULL;
+    //trips = vector<Trip*>;
 }
 /**
  * Destructor
@@ -75,9 +75,17 @@ void Driver::increaseSteps() {
 int Driver::getSteps() { return steps;}
 
 void Driver::doOneStep() {
-    location = trip->start(1);
+    location = trip->getNext(1);
 }
 
 void Driver::addTrip(Trip* newTrip){
     trip = newTrip;
 }
+/*
+void Driver::deletetrip() {
+    trips.erase(trips.begin());
+}*/
+/*
+vector<Node*> Driver:: getpass(){
+    return pass;
+}*/

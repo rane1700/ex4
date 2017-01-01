@@ -28,6 +28,8 @@ private:
     string gridSize;
     int numObs;
     string obsChain;
+    Node* currentP;
+    vector<Node*> pass;
     friend class boost::serialization::access;
     template <class Archive>
     void serialize(Archive & ar,const unsigned int version) {
@@ -111,7 +113,7 @@ public:
      * starts the trip
      * @param speed - the speed of the cab
      */
-    Node* start(int speed);
+    Node* getNext(int speed);
     int isDone();
     int getTimeOfStart();
     string getGridSize();
@@ -120,6 +122,8 @@ public:
     void setNumObs(int numObsInput);
     string getObsChain();
     void setObsChain(string obsChainInput);
+    vector<Node*> getpass();
+    void createPass(int speed);
 };
 
 #endif //EX2_TRIP_H

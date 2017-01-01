@@ -55,10 +55,10 @@ void TaxiStation::addTrip(Trip* trip) {
                                     trip->getEndY(), trip->getStartX(), trip->getStartY(),
                                     trip->getNumObs(), trip->getObsChain());
     Map* m = creator.getMap();
-    drivers[0]->addTrip(trip);
+    //drivers[0]->addTrip(trip);
     //Set map in Trip class
     trip->setMap(m);
-    drivers[0]->addTrip(trip);
+    //drivers[0]->addTrip(trip);
     trips.push_back(trip);
 }
 /**
@@ -145,7 +145,7 @@ void TaxiStation::startAll() {
             if (d == NULL) {
                 if (drivers[i]->getLocation()->getX() == trips[j]->getStartX() &&
                     drivers[i]->getLocation()->getY() == trips[j]->getStartY()) {
-                    trips[j]->start(1);
+                    trips[j]->getNext(1);
                     //make a copy of trip current location after the ride is ended
                     p = trips[j]->getMapCurrent()->clone();
                     drivers[i]->setLocation(p);
@@ -157,7 +157,7 @@ void TaxiStation::startAll() {
                 }
             } else {
                 //A driver Arrived before
-                trips[j]->start(1);
+                trips[j]->getNext(1);
                 //make a copy of trip current location after the ride is ended
                 p = trips[j]->getMapCurrent()->clone();
                 d->setLocation(p);
@@ -218,10 +218,16 @@ void TaxiStation::start(){
     clock.incTime();
     if(trips[0]->isDone() == 0) {
         if(trips[0]->getTimeOfStart() <= clock.getTime()) {
-            drivers[0]->doOneStep();
+            if(trips[0]->getpass().size() == 0){
+                trips[0]->createPass(1);
+            }
+            else {drivers[0]->doOneStep();}
         }
+    } else{
+        //drivers[0]->deletetrip();
+        trips.pop_back();
+        drivers[0]->addTrip(trips.front());
     }
-    cout<<"Shani is the best!!!!!"<<endl;
 }
 
 Driver* TaxiStation::getDriver() { return drivers[0];}

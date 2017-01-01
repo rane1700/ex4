@@ -7,6 +7,7 @@
 #include "Server.h"
 #include <unistd.h>
 
+
 #define RECIEVE_DRIVER 1
 #define RIDE 2
 #define VEHICLE 3
@@ -17,9 +18,7 @@ using namespace std;
 int main(int argc, char **argv) {
 
 
-   Node* n = new PointBase(0,3);
-
-
+    Node* n = new PointBase(0,0);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
@@ -28,8 +27,9 @@ int main(int argc, char **argv) {
     s.flush();
 
     cout << serial_str << endl;
-
-    Driver *a;
+    Node* a;
+//    string txt =
+//    StandardCab *trip2;
     boost::iostreams::basic_array_source<char> device(serial_str.c_str(), serial_str.size());
     boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s2(device);
     boost::archive::binary_iarchive ia(s2);
@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 
 //    cout << *trip2;
 //    MainFlow mainFlow;
-//    mainFlow.start();
+//    mainFlow.getNext();
 
     //  delete trip2;
     return 0;
@@ -63,6 +63,8 @@ int main(int argc, char **argv) {
     TaxiStation *tx = new TaxiStation();
     Trip *t;
     Cab* cab;
+    Driver* driver = new Driver(123, 30, 'h', 10, 1233);
+    tx->addDriver(driver);
     cin >> mission;
     while (1) {
         switch (mission) {
@@ -78,8 +80,9 @@ int main(int argc, char **argv) {
                 t->setGridSize(gridSize);
                 t->setNumObs(numObs);
                 t->setObsChain(obsChain);
-                server->addTrip(t);
-                //tx->addTrip(t);
+                //server->addTrip(t);
+                tx->addTrip(t);
+                //server->sendTrip(t);
                 break;
             }
             case VEHICLE: {
@@ -87,7 +90,8 @@ int main(int argc, char **argv) {
                 cab = info.getVehicle(input);
                 server->addCab(cab);
                 //server->sendCab(info.getVehicle(input));
-                //tx->addCab(info.getVehicle(input));
+                tx->addCab(info.getVehicle(input));
+                //server->sendCab(cab);
                 break;
             }
             case DRIVER_LOCATION: {
@@ -100,7 +104,9 @@ int main(int argc, char **argv) {
                 break;
             }
             case 9: {
-                server->moveOn();
+                //server->moveOn();
+                tx->start();
+                //server->sendLocation(driver->getLocation());
                 break;
             }
             case EXIT: {
