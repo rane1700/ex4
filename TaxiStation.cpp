@@ -214,25 +214,31 @@ int TaxiStation::findTripNumInVector(int tripId) {
     }
 }
 
-void TaxiStation::start(){
-    if(drivers[0]->istripDone() == true) {
+void TaxiStation::start() {
+    if (drivers[0]->istripDone() == true) {
         drivers[0]->addTrip(matchTrip());
         drivers[0]->setTripDone(false);
         drivers[0]->getTrip()->createPass(1);
+        clock.incTime();
+        return;
     }
-    else if(drivers[0]->getTrip()->isDone() == false) {
-        if(drivers[0]->getTrip()->getTimeOfStart() <= clock.getTime()) {
-            /*
-            if(drivers[0]->getTrip()->getpass().size() == 0){
-                drivers[0]->getTrip()->createPass(1);
-            }
-            else
-             */drivers[0]->doOneStep();
+    //else if(drivers[0]->getTrip()->isDone() == false) {
+    if (drivers[0]->getTrip()->getTimeOfStart() <= clock.getTime()) {
+        /*
+        if(drivers[0]->getTrip()->getpass().size() == 0){
+            drivers[0]->getTrip()->createPass(1);
         }
-    } else{
-        //drivers[0]->deletetrip();
-        trips.erase(trips.begin());
+        else
+         */drivers[0]->doOneStep();
+        if(drivers[0]->getTrip()->isDone() == true){
+        int x = findTripNumInVector(drivers[0]->getTrip()->getRideID());
+        trips.erase(trips.begin() + x);
+        delete(drivers[0]->getTrip());
         drivers[0]->setTripDone(true);
+    }
+    //} else{
+        //drivers[0]->deletetrip();
+
     }
     clock.incTime();
 }
@@ -241,9 +247,11 @@ Driver* TaxiStation::getDriver() { return drivers[0];}
 
 Trip* TaxiStation:: matchTrip(){
     Trip* maxTrip = trips[0];
+    int max = -1;
     for(int i = 0; i < trips.size(); i++){
         if(maxTrip->getTimeOfStart() > trips.at(i)->getTimeOfStart()){
             maxTrip = trips.at(i);
+            max = i;
         }
     }
     return maxTrip;
