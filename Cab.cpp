@@ -17,6 +17,7 @@ Cab::Cab(int cabIDInput,int taxiTypeInput, char manufacturerInput, char colorInp
     color = colorInput;
     numOfKMPassed = 0.0;
     taxiType = taxiTypeInput;
+    int x;
 }
 /**
  * constructor
