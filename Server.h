@@ -24,7 +24,7 @@
 #include "Trip.h"
 #include "ParseFromString.h"
 #include "PointHistory.h"
-
+#include "Driver.h"
 
 
 
@@ -40,10 +40,11 @@ private:
     Node* goalPoint;
 public:
     Server();
-    void setDriver();
-    void sendTrip();
-    void sendCab();
-    void moveOn();
+    Socket* getConnection();
+    Driver* setDriver();
+    void sendTrip(Trip* trip);
+    void sendCab(Cab* cab);
+    void moveOn(Node* loc);
     void addTrip(Trip* t);
     void addCab(Cab* c);
     void getDriver();

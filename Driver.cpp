@@ -36,8 +36,12 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
  * Destructor
  */
 Driver::~Driver() {
-    delete (trip);
-    delete (location);
+    if(trip != NULL) {
+        delete (trip);
+    }
+    if(location != NULL) {
+        delete (location);
+    }
     return;
 }
 /**
@@ -99,10 +103,15 @@ bool Driver::tripDone() {
 Trip* Driver:: getTrip(){ return trip;}
 bool Driver:: istripDone(){ return isTripDone;}
 void Driver::setTripDone(bool b){ isTripDone = b;}
-/*
+void setTrip(Trip* newTrip){}
+void Driver:: setTrip(Trip* newTrip){ trip = newTrip;}
+
 void Driver::deletetrip() {
-    trips.erase(trips.begin());
-}*/
+    delete trip;
+    trip = NULL;
+    location = NULL;
+    isTripDone = true;
+}
 /*
 vector<Node*> Driver:: getpass(){
     return pass;

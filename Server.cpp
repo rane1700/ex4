@@ -3,6 +3,7 @@
 //
 #include "Server.h"
 
+
 Server::Server() {
     soc = new Udp(1,1111);
     int bla = soc->initialize();
@@ -10,18 +11,23 @@ Server::Server() {
     flag = false;
 
 }
-void Server::setDriver() {
+Driver* Server::setDriver() {
     char buffer[1024];
-    char* charId;
     soc->reciveData(buffer,sizeof(buffer));
-    charId = buffer;
-    driverId = atoi(charId);
+    string serial_str (buffer,sizeof(buffer));
+    Driver* driver;
+
+    boost::iostreams::basic_array_source<char> device3((char *) serial_str.c_str(), (char *) serial_str.size());
+    boost::iostreams::stream<boost::iostreams::basic_array_source<char> > s3(device3);
+    boost::archive::binary_iarchive ia(s3);
+    ia >> driver;
+    return driver;
+
 
 }
-void Server::sendTrip() {
+void Server::sendTrip(Trip* trip) {
     //serialize
-        Trip *trip = serverTrips[0];
-        serverTrips.pop_back();
+
         std::string serial_str;
         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
         boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
@@ -32,28 +38,26 @@ void Server::sendTrip() {
 
 
 }
-void Server::sendCab() {
-    if (serverCabs.size() > 0) {
-        Cab* cab = serverCabs[0];
-        serverCabs.pop_back();
+void Server::sendCab(Cab* cab) {
+
         std::string serial_str;
         boost::iostreams::back_insert_device<std::string> inserter(serial_str);
         boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
         boost::archive::binary_oarchive oa(s);
         oa << cab;
         s.flush();
-        flag = true;
-    }
+        soc->sendData(serial_str);
 }
-void Server::moveOn() {
- //   soc->sendData("9");
-   // sendCab();
-    sendTrip();
-    if (location == goalPoint) {
-        delete (goalPoint);
-        goalPoint = new PointHistory(PointBase(serverTrips[0]->getEndX(),serverTrips[0]->getEndY()));
-        setLocation();
-    }
+void Server::moveOn(Node* loc) {
+    soc->sendData("9");
+
+    std::string serial_str;
+    boost::iostreams::back_insert_device<std::string> inserter(serial_str);
+    boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
+    boost::archive::binary_oarchive oa(s);
+    oa << loc;
+    s.flush();
+    soc->sendData(serial_str);
 }
 void Server::setLocation() {
     char buffer[1024];
@@ -90,4 +94,7 @@ void Server::addTrip(Trip* t) {
 }
 void Server::addCab(Cab* c){
     serverCabs.push_back(c);
+}
+Socket* Server::getConnection() {
+    return soc;
 }

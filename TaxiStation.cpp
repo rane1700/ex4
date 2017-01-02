@@ -8,7 +8,9 @@
 /**
  * Empty constructor
  */
-TaxiStation::TaxiStation(){}
+TaxiStation::TaxiStation(){
+    server = Server();
+}
 /**
  * Destructor to delete all the vectors
  */
@@ -27,8 +29,8 @@ TaxiStation::~TaxiStation() {
  * add driver to driver's vector
  * @param driver Driver object to be added
  */
-void TaxiStation::addDriver(Driver *driver){
-    drivers.push_back(driver);
+void TaxiStation::addDriver(){
+    drivers.push_back(server.setDriver());
 
 }
 /**
@@ -36,6 +38,7 @@ void TaxiStation::addDriver(Driver *driver){
  * @param cab Cab object to be added
  */
 void TaxiStation::addCab(Cab* cab) {
+    server.sendCab(cab);
     cabs.push_back(cab);
 
 }
@@ -59,7 +62,9 @@ void TaxiStation::addTrip(Trip* trip) {
     //Set map in Trip class
     trip->setMap(m);
     //drivers[0]->addTrip(trip);
+    server.sendTrip(trip);
     trips.push_back(trip);
+
 }
 /**
  * Get Driver object by id
@@ -233,8 +238,12 @@ void TaxiStation::start() {
         if(drivers[0]->getTrip()->isDone() == true){
         int x = findTripNumInVector(drivers[0]->getTrip()->getRideID());
         trips.erase(trips.begin() + x);
-        delete(drivers[0]->getTrip());
-        drivers[0]->setTripDone(true);
+            delete(drivers[0]->getTrip());
+            drivers[0]->setTrip(NULL);
+            drivers[0]->setLocation(NULL);
+            drivers[0]->setTripDone(true);
+
+            cout<<"end of trip"<<endl;
     }
     //} else{
         //drivers[0]->deletetrip();
@@ -247,12 +256,13 @@ Driver* TaxiStation::getDriver() { return drivers[0];}
 
 Trip* TaxiStation:: matchTrip(){
     Trip* maxTrip = trips[0];
-    int max = -1;
     for(int i = 0; i < trips.size(); i++){
         if(maxTrip->getTimeOfStart() > trips.at(i)->getTimeOfStart()){
             maxTrip = trips.at(i);
-            max = i;
         }
     }
     return maxTrip;
+}
+Server TaxiStation::getConn() {
+    return server;
 }

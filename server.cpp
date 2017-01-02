@@ -63,8 +63,8 @@ int main(int argc, char **argv) {
     TaxiStation *tx = new TaxiStation();
     Trip *t;
     Cab* cab;
-    Driver* driver = new Driver(123, 30, 'h', 10, 1233);
-    tx->addDriver(driver);
+   // Driver* driver = new Driver(123, 30, 'h', 10, 1233);
+    //tx->addDriver(driver);
     cin >> mission;
     while (1) {
         switch (mission) {
@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
                 t->setGridSize(gridSize);
                 t->setNumObs(numObs);
                 t->setObsChain(obsChain);
-                //server->addTrip(t);
+                tx->getConn().sendTrip(t);
                 tx->addTrip(t);
                 //server->sendTrip(t);
                 break;
@@ -88,8 +88,7 @@ int main(int argc, char **argv) {
             case VEHICLE: {
                 cin >> input;
                 cab = info.getVehicle(input);
-                server->addCab(cab);
-                //server->sendCab(info.getVehicle(input));
+                tx->getConn().sendCab(cab);
                 tx->addCab(info.getVehicle(input));
                 //server->sendCab(cab);
                 break;
@@ -106,6 +105,7 @@ int main(int argc, char **argv) {
             case 9: {
                 //server->moveOn();
                 tx->start();
+
                 //server->sendLocation(driver->getLocation());
                 break;
             }

@@ -101,6 +101,7 @@ public:
     Trip* getTrip();
     bool istripDone();
     void setTripDone(bool b);
+    void setTrip(Trip* newTrip);
 };
 
 

@@ -46,6 +46,7 @@ Grid::~Grid() {
     for (int i=0;i<width;i++) {
         for (int j=0;j<length;j++) {
             delete (matrix[i][j]);
+            matrix[i][j] = NULL;
         }
     }
 

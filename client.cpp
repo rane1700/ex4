@@ -24,10 +24,37 @@ int main(int argc, char *argv[]) {
     co.addDriver(input);
     co.sendDriver();
 
+    char missionNum[1024];///
     char buffer[1024];
-    co.getConnection()->reciveData(buffer, sizeof(buffer));
-    while (buffer[0] != STOP_ADVANCE) {
-        co.updateDriver(buffer,sizeof(buffer));
+    co.getConnection()->reciveData(missionNum, sizeof(missionNum));
+    while (true) {
+        switch(missionNum[0]) {
+            case '2':
+            {
+
+                co.addTrip(buffer,sizeof(buffer));
+                break;
+            }
+            case '3':
+            {
+
+                co.addCab(buffer,sizeof(buffer));
+                break;
+
+            }
+            case '7':
+            {
+                co.~ClientOps();
+                return 0;
+
+            }
+            case '9':
+            {
+                co.updateDriver(buffer,sizeof(buffer));
+                break;
+            }
+
+        }
         co.getConnection()->reciveData(buffer, sizeof(buffer));
     }
     co.~ClientOps();

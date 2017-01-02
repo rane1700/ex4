@@ -15,6 +15,7 @@ using namespace std;
 #include "Trip.h"
 #include "Map.h"
 #include "Clock.h"
+#include "Server.h"
 #include <map>
 
 class TaxiStation {
@@ -27,6 +28,7 @@ private:
     int findTripNumInVector(int tripId);
     Driver* findDriverAlreadyArrived(int startX,int startY,int id);
     Clock clock;
+    Server server;
 public:
     /**
      * constructor
@@ -40,7 +42,7 @@ public:
      * add driver to driver's vector
      * @param driver Driver object to be added
      */
-    void addDriver(Driver* driver);
+    void addDriver();
     /**
      * Add Cab to the cab's vector
      * @param cab Cab object to be added
@@ -87,6 +89,7 @@ public:
     Driver* getDriver();
 
     Trip* matchTrip();
+    Server getConn();
 };
 
 
