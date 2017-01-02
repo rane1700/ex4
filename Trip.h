@@ -24,7 +24,7 @@ private:
     double taarif;
     Map* layout;
     int timpOfStart;
-    int done = 0;
+    int done;
     string gridSize;
     int numObs;
     string obsChain;
@@ -124,6 +124,7 @@ public:
     void setObsChain(string obsChainInput);
     vector<Node*> getpass();
     void createPass(int speed);
+    void setDone(bool b);
 };
 
 #endif //EX2_TRIP_H

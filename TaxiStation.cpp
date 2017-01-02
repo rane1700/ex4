@@ -218,17 +218,20 @@ void TaxiStation::start(){
     if(drivers[0]->istripDone() == true) {
         drivers[0]->addTrip(matchTrip());
         drivers[0]->setTripDone(false);
+        drivers[0]->getTrip()->createPass(1);
     }
-    if(drivers[0]->getTrip()->isDone() == false) {
+    else if(drivers[0]->getTrip()->isDone() == false) {
         if(drivers[0]->getTrip()->getTimeOfStart() <= clock.getTime()) {
+            /*
             if(drivers[0]->getTrip()->getpass().size() == 0){
                 drivers[0]->getTrip()->createPass(1);
             }
-            else {drivers[0]->doOneStep();}
+            else
+             */drivers[0]->doOneStep();
         }
     } else{
         //drivers[0]->deletetrip();
-        trips.pop_back();
+        trips.erase(trips.begin());
         drivers[0]->setTripDone(true);
     }
     clock.incTime();

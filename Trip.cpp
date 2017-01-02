@@ -37,6 +37,7 @@ Trip::Trip(int idPar,int startXP,int startYP,int endXP,int endYP,int numPass,int
     timpOfStart = timeOfSt;
     currentP = startP;
     pass = vector<Node*>();
+    done = false;
 }
 /**
  *
@@ -110,8 +111,6 @@ Node* Trip:: getMapCurrent(){
 Node* Trip::getNext(int speed){
     currentP = pass.front();
     pass.erase(pass.begin());
-    int x = 0;
-    x++;
     //if((currentP->getX() == destP->getX()) && (currentP->getY() == destP->getY())){
     if(pass.size() == 0){
         done = 1;
@@ -133,4 +132,7 @@ vector<Node*> Trip:: getpass(){
 void Trip:: createPass(int speed){
     layout->run(speed);
     pass = layout->getPass();
+}
+void Trip:: setDone(bool b){
+    done = b;
 }

@@ -86,7 +86,7 @@ vector<Node*> Grid:: getPass(){
         passBackwards.push_back(currentP);
         currentP = currentP->getFather();
     }while(!((currentP->getX() == start.getX()) && (currentP->getY() == start.getY())));
-    passBackwards.push_back(currentP);
+    //passBackwards.push_back(currentP);
     //reverse the vector
     for(int i = passBackwards.size() - 1; i >= 0; i--){
         pass.push_back(passBackwards.at(i));
