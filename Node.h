@@ -40,22 +40,22 @@ private:
          *
          * @return x
          */
-        virtual int getX()=0;
+        virtual int getX();
         /**
          *
          * @return y
          */
-        virtual int getY()=0;
+        virtual int getY();
         /**
          * changes the x
          * @param x - the new x
          */
-        virtual void  setX(int x)=0;
+        virtual void  setX(int x);
         /**
          * changes the new y
          * @param y - the new y
          */
-        virtual void setY(int y)=0;
+        virtual void setY(int y);
         /**
          * changes the father
          * @param p - the new father

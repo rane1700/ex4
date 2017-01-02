@@ -36,6 +36,7 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
  * Destructor
  */
 Driver::~Driver() {
+    delete (trip);
     delete (location);
     return;
 }

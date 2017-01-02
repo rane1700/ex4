@@ -14,7 +14,9 @@ Trip::Trip(){}
  */
 Trip::~Trip(){
     delete(layout);
-    return;
+    delete startP;
+    delete destP;
+
 }
 /**
  * constructor
@@ -114,7 +116,6 @@ Node* Trip::getNext(int speed){
     //if((currentP->getX() == destP->getX()) && (currentP->getY() == destP->getY())){
     if(pass.size() == 0){
         done = 1;
-        std::cout<<"wow"<<std::endl;
     }
     return currentP;
 }
