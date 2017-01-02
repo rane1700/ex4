@@ -224,6 +224,7 @@ void TaxiStation::start() {
         drivers[0]->addTrip(matchTrip());
         drivers[0]->setTripDone(false);
         drivers[0]->getTrip()->createPass(1);
+        //server.moveOn(drivers[0]->getLocation());
         clock.incTime();
         return;
     }
@@ -235,20 +236,20 @@ void TaxiStation::start() {
         }
         else
          */drivers[0]->doOneStep();
-        if(drivers[0]->getTrip()->isDone() == true){
-        int x = findTripNumInVector(drivers[0]->getTrip()->getRideID());
-        trips.erase(trips.begin() + x);
+        if(drivers[0]->getTrip()->isDone() == true) {
+            int x = findTripNumInVector(drivers[0]->getTrip()->getRideID());
+            trips.erase(trips.begin() + x);
             delete(drivers[0]->getTrip());
             drivers[0]->setTrip(NULL);
             drivers[0]->setLocation(NULL);
             drivers[0]->setTripDone(true);
-
             cout<<"end of trip"<<endl;
     }
     //} else{
         //drivers[0]->deletetrip();
 
     }
+
     clock.incTime();
 }
 
