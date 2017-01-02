@@ -36,6 +36,7 @@ private:
     double avgsatisfaction;
     int cabID;
     int steps;
+    bool isTripDone;
     //vector<Node*> pass = NULL;
     enum material {S,M,D,W};
 
@@ -85,6 +86,7 @@ public:
      * @return current location of the driver
      */
     Node* getLocation();
+    bool tripDone();
     /**
      * sests the location to a new one
      * @param p - the new location
@@ -96,6 +98,9 @@ public:
     void addTrip(Trip* newTrip);
     void deletetrip();
     vector<Node*> getpass();
+    Trip* getTrip();
+    bool istripDone();
+    void setTripDone(bool b);
 };
 
 

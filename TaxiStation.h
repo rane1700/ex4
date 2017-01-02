@@ -85,6 +85,8 @@ public:
     void start();
 
     Driver* getDriver();
+
+    Trip* matchTrip();
 };
 
 

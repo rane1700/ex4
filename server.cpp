@@ -18,7 +18,7 @@ using namespace std;
 int main(int argc, char **argv) {
 
 
-    Node* n = new PointBase(0,0);
+    /*Node* n = new PointBase(0,0);
     std::string serial_str;
     boost::iostreams::back_insert_device<std::string> inserter(serial_str);
     boost::iostreams::stream<boost::iostreams::back_insert_device<std::string> > s(inserter);
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 //    mainFlow.getNext();
 
     //  delete trip2;
-    return 0;
+    return 0;*/
 
     Server *server = new Server();
     string gridSize, obs, obsChain = "";

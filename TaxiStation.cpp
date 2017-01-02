@@ -215,20 +215,33 @@ int TaxiStation::findTripNumInVector(int tripId) {
 }
 
 void TaxiStation::start(){
-    clock.incTime();
-    if(trips[0]->isDone() == 0) {
-        if(trips[0]->getTimeOfStart() <= clock.getTime()) {
-            if(trips[0]->getpass().size() == 0){
-                trips[0]->createPass(1);
+    if(drivers[0]->istripDone() == true) {
+        drivers[0]->addTrip(matchTrip());
+        drivers[0]->setTripDone(false);
+    }
+    if(drivers[0]->getTrip()->isDone() == false) {
+        if(drivers[0]->getTrip()->getTimeOfStart() <= clock.getTime()) {
+            if(drivers[0]->getTrip()->getpass().size() == 0){
+                drivers[0]->getTrip()->createPass(1);
             }
             else {drivers[0]->doOneStep();}
         }
     } else{
         //drivers[0]->deletetrip();
         trips.pop_back();
-        drivers[0]->addTrip(trips.front());
+        drivers[0]->setTripDone(true);
     }
+    clock.incTime();
 }
 
 Driver* TaxiStation::getDriver() { return drivers[0];}
 
+Trip* TaxiStation:: matchTrip(){
+    Trip* maxTrip = trips[0];
+    for(int i = 0; i < trips.size(); i++){
+        if(maxTrip->getTimeOfStart() > trips.at(i)->getTimeOfStart()){
+            maxTrip = trips.at(i);
+        }
+    }
+    return maxTrip;
+}

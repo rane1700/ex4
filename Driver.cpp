@@ -28,6 +28,8 @@ Driver::Driver(int ID1, int age1, char materialStatus1, int yearsOfExperience1, 
     avgsatisfaction = 0;
     location = new PointHistory(PointBase(0,0));
     steps = 0;
+    isTripDone = true;
+    trip = NULL;
     //trips = vector<Trip*>;
 }
 /**
@@ -62,6 +64,10 @@ void Driver::setLocation(Node* p) {
     }
     location = p;
 }
+/*
+bool Driver::isTripDone() {
+    return isTripDone;
+}*/
 /**
  * steps discribes each trip made by driver
  */
@@ -75,12 +81,23 @@ void Driver::increaseSteps() {
 int Driver::getSteps() { return steps;}
 
 void Driver::doOneStep() {
+
     location = trip->getNext(1);
+    if (location->getX() == trip->getEndX() && location->getY() == trip->getEndY()) {
+        isTripDone = true;
+    }
 }
 
 void Driver::addTrip(Trip* newTrip){
     trip = newTrip;
+    isTripDone = true;
 }
+bool Driver::tripDone() {
+    return isTripDone;
+}
+Trip* Driver:: getTrip(){ return trip;}
+bool Driver:: istripDone(){ return isTripDone;}
+void Driver::setTripDone(bool b){ isTripDone = b;}
 /*
 void Driver::deletetrip() {
     trips.erase(trips.begin());
